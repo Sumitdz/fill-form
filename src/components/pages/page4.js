@@ -44,6 +44,31 @@ const Page4 = ({ formData, handleChange }) => (
       <input name="country1" value={formData.country1 || ""} onChange={handleChange} />
     </div>
 
+
+
+    <div className="form-group">
+        <label><strong>What is your current marital status?</strong></label>
+        <select name="maritalStatus" value={formData.maritalStatus || ""} onChange={handleChange}>
+          <option value="">Select</option>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Divorced">Divorced</option>
+          <option value="Widowed">Widowed</option>
+          <option value="Separated">Separated</option>
+          <option value="MarriageAnnulled">Marriage Annulled</option>
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label>If you are currently married, is your spouse a current member of the U.S. armed forces?</label>
+        <select name="armed" value={formData.armed || ""} onChange={handleChange}>
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+
     <div className="form-group">
       <label>Spouse Full Name</label>
       <input placeholder="Last Name" name="slastName" value={formData.slastName || ""} onChange={handleChange} />
@@ -60,6 +85,24 @@ const Page4 = ({ formData, handleChange }) => (
       <label>Marriage Date</label>
       <input name="mdate" value={formData.mdate || ""} onChange={handleChange} />
     </div>
+
+    <div className="form-group">
+        <label>Is your current spouse's present physical address the same as your physical address?</label>
+        <select name="sameAdd" value={formData.sameAdd || ""} onChange={handleChange}>
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label>When did your current spouse become a U.S. citizen?</label>
+        <select name="sCitizenship" value={formData.sCitizenship || ""} onChange={handleChange}>
+          <option value="">Select</option>
+          <option value="Yes">By Birth in the United States</option>
+          <option value="No">Other</option>
+        </select>
+      </div>
 
     <div className="form-group">
       <label>Date Spouse Became US Citizen</label>

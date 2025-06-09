@@ -26,6 +26,18 @@ const Page5 = ({ formData, handleChange }) => (
         <input placeholder="Date of Birth" name={`dob${i}`} value={formData[`dob${i}`] || ""} onChange={handleChange} />
         <input placeholder="Residence" name={`residence${i}`} value={formData[`residence${i}`] || ""} onChange={handleChange} />
         <input placeholder="Relationship" name={`relationship${i}`} value={formData[`relationship${i}`] || ""} onChange={handleChange} />
+        <div className="form-group">
+          <label>Are you providing support for your son or daughter?</label>
+          <select
+            name={`dep${i}`}
+            value={formData[`dep${i}`] || ""}
+            onChange={handleChange}
+          >
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
       </div>
     ))}
 
