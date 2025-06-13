@@ -1,17 +1,38 @@
 import React from "react";
 
 const Page14 = ({ formData, handleChange }) => (
-  <div className="form-container">
-    <h3>Step 8: Declaration & Signature</h3>
+  <div className="container mt-4">
+    <h4 className="text-center mb-4">Declaration & Signature</h4>
 
-    <div className="form-group">
-      <label>Applicant Signature (Full Name)</label>
-      <input name="applicantSignature" value={formData.applicantSignature || ""} onChange={handleChange} />
-    </div>
+    <div className="card p-4 shadow-sm">
+      <div className="mb-3">
+        <label htmlFor="applicantSignature" className="form-label">
+          Applicant Signature (Full Name)
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="applicantSignature"
+          name="applicantSignature"
+          value={formData.applicantSignature || ""}
+          onChange={handleChange}
+          placeholder="Enter full name"
+        />
+      </div>
 
-    <div className="form-group">
-      <label>Today's Date</label>
-      <input type="date" name="signatureDate" value={formData.signatureDate || ""} onChange={handleChange} />
+      <div className="mb-3">
+        <label htmlFor="signatureDate" className="form-label">
+          Date of Signature
+        </label>
+        <input
+          type="date"
+          className="form-control"
+          id="signatureDate"
+          name="signatureDate"
+          value={formData.signatureDate || ""}
+          onChange={handleChange}
+        />
+      </div>
     </div>
   </div>
 );

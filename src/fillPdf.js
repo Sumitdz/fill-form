@@ -1,14 +1,16 @@
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
-import NotoFont from './fonts/NotoSansSymbols2-Regular.ttf';
-import { saveAs } from 'file-saver';
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
+import NotoFont from "./fonts/NotoSansSymbols2-Regular.ttf";
+import { saveAs } from "file-saver";
 
 export async function fillN400Pdf(data) {
-  const existingPdfBytes = await fetch('/n-400.pdf').then(res => res.arrayBuffer());
+  const existingPdfBytes = await fetch("/n-400.pdf").then((res) =>
+    res.arrayBuffer()
+  );
   const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
   pdfDoc.registerFontkit(fontkit);
-  const notoFontBytes = await fetch(NotoFont).then(res => res.arrayBuffer());
+  const notoFontBytes = await fetch(NotoFont).then((res) => res.arrayBuffer());
   const customFont = await pdfDoc.embedFont(notoFontBytes);
 
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -17,7 +19,7 @@ export async function fillN400Pdf(data) {
   const draw = (pageIndex, text, x, y, size = 8, font = helveticaFont) => {
     const page = pages[pageIndex];
     const { height } = page.getSize();
-    page.drawText(text || '', {
+    page.drawText(text || "", {
       x,
       y: height - y,
       size,
@@ -26,33 +28,35 @@ export async function fillN400Pdf(data) {
     });
   };
 
-  const drawTick = (pageIndex, x, y, size = 12) => {
-    draw(pageIndex, '✔', x, y, size, customFont);
+  const drawTick = (pageIndex, x, y, size = 8) => {
+    draw(pageIndex, "✔", x, y, size, customFont);
   };
 
   const checkEligibilityBox = (letter) => {
     const yPositions = {
-      A: 347,
-      B: 366,
-      C: 383,
-      D: 413,
-      E: 502,
-      F: 532,
-      G: 565,
+      A: 346.5,
+      B: 365.5,
+      C: 382.5,
+      D: 412.5,
+      E: 501.5,
+      F: 531.5,
+      G: 564.5,
     };
     const y = yPositions[letter];
     if (y !== undefined) {
-      drawTick(0, 86, y, 12);
+      drawTick(0, 85, y, 8);
     }
     if (letter === "G" && data.eligibilityReasonOther) {
-      draw(0, data.eligibilityReasonOther, 290, y, 10);
+      draw(0, data.eligibilityReasonOther, 290, y, 8);
     }
   };
 
   checkEligibilityBox(data.eligibilityReason);
 
   const aNumber = (data.aNumber || "").toString().padEnd(9);
-  const aX1 = 460, aY1 = 300, aSpacing1 = 13;
+  const aX1 = 460,
+    aY1 = 300,
+    aSpacing1 = 13;
   for (let i = 0; i < aNumber.length; i++) {
     draw(0, aNumber[i], aX1 + i * aSpacing1, aY1);
   }
@@ -65,7 +69,7 @@ export async function fillN400Pdf(data) {
   draw(0, data.otherMiddleName, 480, 720);
 
   const checkLegalNameChange = (answer) => {
-    drawTick(1, answer === "Yes" ? 398 : 440, 123);
+    drawTick(1, answer === "Yes" ? 397.5 : 439.5, 123);
   };
   checkLegalNameChange(data.legalNameChange);
 
@@ -79,7 +83,7 @@ export async function fillN400Pdf(data) {
   }
 
   const checkgender = (answer) => {
-    drawTick(1, answer === "Male" ? 284 : 331, 210);
+    drawTick(1, answer === "Male" ? 283.5 : 330.5, 210);
   };
   checkgender(data.gender);
 
@@ -89,7 +93,7 @@ export async function fillN400Pdf(data) {
   }
 
   const checkssa = (answer) => {
-    drawTick(1, answer === "Yes" ? 500 : 542, 675);
+    drawTick(1, answer === "Yes" ? 499.5 : 541.5, 675);
   };
   checkssa(data.ssa);
 
@@ -98,17 +102,17 @@ export async function fillN400Pdf(data) {
   draw(1, data.countryofcitizenship, 150, 386);
 
   const checkpCitizen = (answer) => {
-    drawTick(1, answer === "Yes" ? 500 : 542, 435);
+    drawTick(1, answer === "Yes" ? 499.5 : 541.5, 435);
   };
   checkpCitizen(data.pCitizen);
 
   const checkdisability = (answer) => {
-    drawTick(1, answer === "Yes" ? 500 : 542, 472);
+    drawTick(1, answer === "Yes" ? 499.5 : 541.5, 472);
   };
   checkdisability(data.disability);
 
   const checkwantssa = (answer) => {
-    drawTick(1, 62, answer === "Yes" ? 615 : 633);
+    drawTick(1, 62, answer === "Yes" ? 614.5 : 633);
   };
   checkwantssa(data.wantssa);
 
@@ -126,14 +130,14 @@ export async function fillN400Pdf(data) {
   if (data.ethnicity === "NotHispanic") drawTick(2, 170.5, 132);
 
   const raceXPositions = {
-    "American Indian": 63,
-    "Asian": 170.5,
-    "Black": 224.5,
-    "Pacific Islander": 327.5,
-    "White": 446.5,
+    "American Indian": 62.5,
+    Asian: 170,
+    Black: 224,
+    "Pacific Islander": 327,
+    White: 446,
   };
 
-  (data.race || []).forEach(race => {
+  (data.race || []).forEach((race) => {
     if (raceXPositions[race]) drawTick(2, raceXPositions[race], 168);
   });
 
@@ -146,18 +150,35 @@ export async function fillN400Pdf(data) {
   }
 
   const eyeColorPositions = {
-    Black: 63, Blue: 128, Brown: 176.5, Gray: 231, Green: 285,
-    Hazel: 339, Maroon: 387, Pink: 447, Unknown: 494
+    Black: 62.5,
+    Blue: 127.5,
+    Brown: 176,
+    Gray: 230.5,
+    Green: 284.5,
+    Hazel: 338.5,
+    Maroon: 386.5,
+    Pink: 446.5,
+    Unknown: 493.5,
   };
-  if (eyeColorPositions[data.eyeColor]) drawTick(2, eyeColorPositions[data.eyeColor], 233.5);
+  if (eyeColorPositions[data.eyeColor])
+    drawTick(2, eyeColorPositions[data.eyeColor], 233.5);
 
   const hairColorPositions = {
-    Bald: 63, Black: 128, Blond: 176.5, Brown: 231, Gray: 285,
-    Red: 339, Sandy: 387, White: 447, Unknown: 494
+    Bald: 62.5,
+    Black: 127.5,
+    Blond: 176,
+    Brown: 230.5,
+    Gray: 284.5,
+    Red: 338.5,
+    Sandy: 386.5,
+    White: 446.5,
+    Unknown: 493.5,
   };
-  if (hairColorPositions[data.hairColor]) drawTick(2, hairColorPositions[data.hairColor], 270);
+  if (hairColorPositions[data.hairColor])
+    drawTick(2, hairColorPositions[data.hairColor], 270);
 
-  const checkmailAdd = (answer) => drawTick(2, answer === "Yes" ? 62 : 267, 741);
+  const checkmailAdd = (answer) =>
+    drawTick(2, answer === "Yes" ? 61.5 : 266.5, 741);
   checkmailAdd(data.mailAdd);
 
   draw(3, data.careofname1, 70, 121);
@@ -170,14 +191,19 @@ export async function fillN400Pdf(data) {
   draw(3, data.country1, 360, 228);
 
   const maritalStatusPositions = {
-    Single: 62, Married: 176, Divorced: 236, Widowed: 302,
-    Separated: 367, MarriageAnnulled: 433,
+    Single: 61.5,
+    Married: 175.5,
+    Divorced: 235.5,
+    Widowed: 301.5,
+    Separated: 366.5,
+    MarriageAnnulled: 432.5,
   };
   if (maritalStatusPositions[data.maritalStatus]) {
     drawTick(3, maritalStatusPositions[data.maritalStatus], 303);
   }
 
-  const checkarmedF = (answer) => drawTick(3, answer === "Yes" ? 500 : 542, 339);
+  const checkarmedF = (answer) =>
+    drawTick(3, answer === "Yes" ? 499.5 : 541.5, 339);
   checkarmedF(data.armed);
 
   draw(3, data.slastName, 70, 559);
@@ -187,10 +213,12 @@ export async function fillN400Pdf(data) {
   draw(3, data.mdate, 245, 606);
   draw(3, data.sdate, 330, 740);
 
-  const checksameAdd = (answer) => drawTick(3, 62, answer === "Yes" ? 646 : 664);
+  const checksameAdd = (answer) =>
+    drawTick(3, 61.5, answer === "Yes" ? 645.5 : 663.5);
   checksameAdd(data.sameAdd);
 
-  const checksCitizenship = (answer) => drawTick(3, 62, answer === "Yes" ? 699 : 716);
+  const checksCitizenship = (answer) =>
+    drawTick(3, 61.5, answer === "Yes" ? 699 : 716);
   checksCitizenship(data.sCitizenship);
 
   const aNo = (data.ano || "").toString().padEnd(9);
@@ -207,8 +235,8 @@ export async function fillN400Pdf(data) {
     draw(4, data[`residence${i}`], 300, 415 + 35 * (i - 1));
     draw(4, data[`relationship${i}`], 410, 415 + 35 * (i - 1));
     const dep = data[`dep${i}`];
-    if (dep === "Yes") drawTick(4, 505.5, 413 + 30 * (i - 1));
-    else if (dep === "No") drawTick(4, 544.5, 413 + 30 * (i - 1));
+    if (dep === "Yes") drawTick(4, 505.5, 412.5 + 30 * (i - 1));
+    else if (dep === "No") drawTick(4, 544.5, 412.5 + 30 * (i - 1));
   }
 
   for (let i = 1; i <= 3; i++) {
@@ -227,6 +255,6 @@ export async function fillN400Pdf(data) {
   draw(8, data.signatureDate, 100, 120);
 
   const pdfBytes = await pdfDoc.save();
-  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-  saveAs(blob, 'n-400-filled.pdf');
+  const blob = new Blob([pdfBytes], { type: "application/pdf" });
+  saveAs(blob, "n-400-filled.pdf");
 }
