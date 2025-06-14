@@ -33,7 +33,7 @@ const Page1 = ({ formData, handleChange }) => (
             <div className="col-12" key={value}>
               <label
                 htmlFor={`eligibility-${value}`}
-                className={`d-flex align-items-center p-3 rounded border ${
+                className={`d-flex align-items-center gap-2 p-3 rounded border ${
                   formData.eligibilityReason === value
                     ? "border-primary bg-white shadow-sm"
                     : "bg-light"
@@ -42,14 +42,17 @@ const Page1 = ({ formData, handleChange }) => (
               >
                 <input
                   type="radio"
-                  className="form-check-input me-2"
+                  className="form-check-input"
                   name="eligibilityReason"
                   id={`eligibility-${value}`}
                   value={value}
                   checked={formData.eligibilityReason === value}
                   onChange={handleChange}
+                  style={{ transform: "translateY(1px)" }}
                 />
-                <span className="flex-grow-1">{label}</span>
+                <span className="flex-grow-1 d-flex align-items-center">
+                  {label}
+                </span>
               </label>
             </div>
           ))}
