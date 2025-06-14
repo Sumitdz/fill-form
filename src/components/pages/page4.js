@@ -27,7 +27,7 @@ const Page4 = ({ formData, handleChange }) => {
         </div>
 
         <div className="row g-3">
-          <div className="col-12 col-md-4">
+          <div className="col-md-4">
             <label className="form-label">City or Town</label>
             <input
               name="city1"
@@ -36,7 +36,7 @@ const Page4 = ({ formData, handleChange }) => {
               onChange={handleChange}
             />
           </div>
-          <div className="col-12 col-md-4">
+          <div className="col-md-4">
             <label className="form-label">State</label>
             <input
               name="state1"
@@ -45,7 +45,7 @@ const Page4 = ({ formData, handleChange }) => {
               onChange={handleChange}
             />
           </div>
-          <div className="col-12 col-md-4">
+          <div className="col-md-4">
             <label className="form-label">ZIP Code</label>
             <input
               name="zip1"
@@ -57,7 +57,7 @@ const Page4 = ({ formData, handleChange }) => {
         </div>
 
         <div className="row g-3 mt-3">
-          <div className="col-12 col-md-4">
+          <div className="col-md-4">
             <label className="form-label">Province</label>
             <input
               name="province1"
@@ -66,7 +66,7 @@ const Page4 = ({ formData, handleChange }) => {
               onChange={handleChange}
             />
           </div>
-          <div className="col-12 col-md-4">
+          <div className="col-md-4">
             <label className="form-label">Postal Code</label>
             <input
               name="postalcode1"
@@ -75,7 +75,7 @@ const Page4 = ({ formData, handleChange }) => {
               onChange={handleChange}
             />
           </div>
-          <div className="col-12 col-md-4">
+          <div className="col-md-4">
             <label className="form-label">Country</label>
             <input
               name="country1"
@@ -108,67 +108,136 @@ const Page4 = ({ formData, handleChange }) => {
           <h5 className="card-title mb-3">Spouse Information</h5>
 
           <div className="row g-3">
-            <div className="col-12 col-md-6">
-              <label className="form-label">Family Name</label>
+            <div className="col-md-4">
+              <label className="form-label">Last Name</label>
               <input
-                name="sfamilyName"
+                name="slastName"
                 className="form-control"
-                value={formData.sfamilyName || ""}
+                value={formData.slastName || ""}
                 onChange={handleChange}
               />
             </div>
-            <div className="col-12 col-md-6">
-              <label className="form-label">Given Name</label>
+            <div className="col-md-4">
+              <label className="form-label">First Name</label>
               <input
-                name="sgivenName"
+                name="sfirstName"
                 className="form-control"
-                value={formData.sgivenName || ""}
+                value={formData.sfirstName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-4">
+              <label className="form-label">Middle Name</label>
+              <input
+                name="smiddleName"
+                className="form-control"
+                value={formData.smiddleName || ""}
                 onChange={handleChange}
               />
             </div>
           </div>
 
-          <div className="mb-3 mt-3">
-            <label className="form-label">Date of Birth</label>
+          <div className="row g-3 mt-3">
+            <div className="col-md-6">
+              <label className="form-label">Date of Birth</label>
+              <input
+                type="date"
+                name="sdob"
+                className="form-control"
+                value={formData.sdob || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Marriage Date</label>
+              <input
+                type="date"
+                name="mdate"
+                className="form-control"
+                value={formData.mdate || ""}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <label className="form-label fw-bold">
+              5.a. When did your current spouse become a U.S. citizen?
+            </label>
+            <div className="form-check">
+              <input
+                type="radio"
+                id="scitizenYes"
+                name="sCitizenship"
+                value="Yes"
+                className="form-check-input"
+                checked={formData.sCitizenship === "Yes"}
+                onChange={handleChange}
+              />
+              <label htmlFor="scitizenYes" className="form-check-label">
+                By Birth in the United States
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                type="radio"
+                id="scitizenOther"
+                name="sCitizenship"
+                value="Other"
+                className="form-check-input"
+                checked={formData.sCitizenship === "Other"}
+                onChange={handleChange}
+              />
+              <label htmlFor="scitizenOther" className="form-check-label">
+                Other
+              </label>
+            </div>
+          </div>
+
+          <div className="mt-3">
+            <label className="form-label">
+              5.b. Date Your Current Spouse Became a U.S. Citizen
+            </label>
             <input
               type="date"
-              name="sdob"
+              name="sdate"
               className="form-control"
-              value={formData.sdob || ""}
+              value={formData.sdate || ""}
               onChange={handleChange}
             />
           </div>
-
-          <div className="row g-3">
-            <div className="col-12 col-md-6">
-              <label className="form-label">Country of Birth</label>
+          <div className="mt-4">
+            <label className="form-label fw-bold">
+              Is your current spouse's present physical address the same as your
+              physical address?
+            </label>
+            <div className="form-check">
               <input
-                name="scountryBirth"
-                className="form-control"
-                value={formData.scountryBirth || ""}
+                type="radio"
+                name="sameAdd"
+                value="Yes"
+                className="form-check-input"
+                checked={formData.sameAdd === "Yes"}
                 onChange={handleChange}
               />
+              <label className="form-check-label">Yes</label>
             </div>
-            <div className="col-12 col-md-6">
-              <label className="form-label">Country of Citizenship</label>
+            <div className="form-check">
               <input
-                name="scountryCitizen"
-                className="form-control"
-                value={formData.scountryCitizen || ""}
+                type="radio"
+                name="sameAdd"
+                value="No"
+                className="form-check-input"
+                checked={formData.sameAdd === "No"}
                 onChange={handleChange}
               />
+              <label className="form-check-label">No</label>
             </div>
-          </div>
-
-          <div className="mb-3 mt-3">
-            <label className="form-label">Date of Marriage</label>
-            <input
-              type="date"
-              name="sdom"
-              className="form-control"
-              value={formData.sdom || ""}
-              onChange={handleChange}
-            />
+            {formData.sameAdd === "No" && (
+              <p className="text-muted mt-1">
+                Provide address in Part 14. Additional Information.
+              </p>
+            )}
           </div>
         </div>
       )}

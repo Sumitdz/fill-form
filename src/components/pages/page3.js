@@ -126,26 +126,31 @@ const Page3 = ({ formData, handleChange }) => {
 
       <div className="mb-4">
         <label className="form-label fw-bold d-block mb-2">1. Ethnicity</label>
-        <div className="p-3 bg-light border rounded compact-check">
+        <div className="row gy-2">
           {[
             { label: "Hispanic or Latino", value: "Hispanic" },
             { label: "Not Hispanic or Latino", value: "NotHispanic" },
           ].map(({ label, value }) => (
-            <div className="form-check" key={value}>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="ethnicity"
-                value={value}
-                checked={formData.ethnicity === value}
-                onChange={handleChange}
-                id={`ethnicity-${value}`}
-              />
+            <div className="col-12" key={value}>
               <label
-                className="form-check-label"
                 htmlFor={`ethnicity-${value}`}
+                className={`d-flex align-items-center p-3 rounded border ${
+                  formData.ethnicity === value
+                    ? "border-primary bg-white shadow-sm"
+                    : "bg-light"
+                }`}
+                style={{ cursor: "pointer" }}
               >
-                {label}
+                <input
+                  className="form-check-input me-2"
+                  type="radio"
+                  name="ethnicity"
+                  value={value}
+                  checked={formData.ethnicity === value}
+                  onChange={handleChange}
+                  id={`ethnicity-${value}`}
+                />
+                <span>{label}</span>
               </label>
             </div>
           ))}
@@ -156,28 +161,37 @@ const Page3 = ({ formData, handleChange }) => {
         <label className="form-label fw-bold d-block mb-2">
           2. Race <small className="text-muted">(Select all that apply)</small>
         </label>
-        <div className="p-3 bg-light border rounded compact-check">
+        <div className="row gy-2">
           {[
             "American Indian",
             "Asian",
             "Black",
             "Pacific Islander",
             "White",
-          ].map((race) => (
-            <div className="form-check" key={race}>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value={race}
-                checked={formData.race?.includes(race)}
-                onChange={handleRaceChange}
-                id={`race-${race}`}
-              />
-              <label className="form-check-label" htmlFor={`race-${race}`}>
-                {race}
-              </label>
-            </div>
-          ))}
+          ].map((race) => {
+            const checked = formData.race?.includes(race);
+            return (
+              <div className="col-12" key={race}>
+                <label
+                  htmlFor={`race-${race}`}
+                  className={`d-flex align-items-center p-3 rounded border ${
+                    checked ? "border-primary bg-white shadow-sm" : "bg-light"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                >
+                  <input
+                    className="form-check-input me-2"
+                    type="checkbox"
+                    value={race}
+                    checked={checked}
+                    onChange={handleRaceChange}
+                    id={`race-${race}`}
+                  />
+                  <span>{race}</span>
+                </label>
+              </div>
+            );
+          })}
         </div>
       </div>
 
